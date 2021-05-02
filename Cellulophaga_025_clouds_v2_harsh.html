@@ -1,0 +1,129 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>None</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 1500px;
+            height: 1500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+        #config {
+            float: left;
+            width: 400px;
+            height: 600px;
+        }
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<div id = "config"></div>
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821618", "label": "KC821618", "shape": "dot", "size": 17, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 53_664 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821615", "label": "KC821615", "shape": "dot", "size": 13, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 39_151 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821617", "label": "KC821617", "shape": "dot", "size": 12, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 38_776 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821622", "label": "KC821622", "shape": "dot", "size": 24, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 72_961 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821633", "label": "KC821633", "shape": "dot", "size": 24, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 72_369 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821612", "label": "KC821612", "shape": "dot", "size": 24, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 72_529 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821624", "label": "KC821624", "shape": "dot", "size": 33, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 100_418 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821613", "label": "KC821613", "shape": "dot", "size": 13, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 39_148 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821630", "label": "KC821630", "shape": "dot", "size": 18, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Myoviridae\u003cbr\u003eGenome size: 54_427 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KT962247", "label": "KT962247", "shape": "dot", "size": 48, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 145_343 bp"}, {"color": {"background": "#39dede", "border": "#000000"}, "id": "Station37_MES_COMBINED_FINAL_NODE_2068_length_20048_cov_9.997899", "label": "Station37_MES_COMBINED_FINAL_NODE_2068_length_20048_cov_9.997899", "shape": "dot", "size": 6, "title": "Target host genus: None\u003cbr\u003ePhage genus: None\u003cbr\u003eGenome size: 20_048 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821629", "label": "KC821629", "shape": "dot", "size": 18, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Myoviridae\u003cbr\u003eGenome size: 54_012 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821604", "label": "KC821604", "shape": "dot", "size": 26, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 78_269 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821609", "label": "KC821609", "shape": "dot", "size": 48, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 145_343 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KT962246", "label": "KT962246", "shape": "dot", "size": 48, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 145_865 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821627", "label": "KC821627", "shape": "dot", "size": 12, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 38_476 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821616", "label": "KC821616", "shape": "dot", "size": 18, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Myoviridae\u003cbr\u003eGenome size: 54_566 bp"}, {"color": {"background": "#39dede", "border": "#000000"}, "id": "Station37_MES_COMBINED_FINAL_NODE_3150_length_14336_cov_12.432113", "label": "Station37_MES_COMBINED_FINAL_NODE_3150_length_14336_cov_12.432113", "shape": "dot", "size": 4, "title": "Target host genus: None\u003cbr\u003ePhage genus: None\u003cbr\u003eGenome size: 14_336 bp"}, {"color": {"background": "#39dede", "border": "#000000"}, "id": "Station37_MES_COMBINED_FINAL_NODE_1544_length_25511_cov_7.210677", "label": "Station37_MES_COMBINED_FINAL_NODE_1544_length_25511_cov_7.210677", "shape": "dot", "size": 8, "title": "Target host genus: None\u003cbr\u003ePhage genus: None\u003cbr\u003eGenome size: 25_511 bp"}, {"color": {"background": "#39dede", "border": "#000000"}, "id": "Station37_MES_COMBINED_FINAL_NODE_1858_length_21738_cov_9.315270", "label": "Station37_MES_COMBINED_FINAL_NODE_1858_length_21738_cov_9.315270", "shape": "dot", "size": 7, "title": "Target host genus: None\u003cbr\u003ePhage genus: None\u003cbr\u003eGenome size: 21_738 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821608", "label": "KC821608", "shape": "dot", "size": 25, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 75_994 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821634", "label": "KC821634", "shape": "dot", "size": 18, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Myoviridae\u003cbr\u003eGenome size: 54_016 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821632", "label": "KC821632", "shape": "dot", "size": 48, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 145_865 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821607", "label": "KC821607", "shape": "dot", "size": 19, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 57_447 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821621", "label": "KC821621", "shape": "dot", "size": 26, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 78_275 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821610", "label": "KC821610", "shape": "dot", "size": 18, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Myoviridae\u003cbr\u003eGenome size: 54_015 bp"}, {"color": {"background": "#39dede", "border": "#000000"}, "id": "Station168_IZZ_ALL_assembly_NODE_9885_length_12239_cov_2.808109", "label": "Station168_IZZ_ALL_assembly_NODE_9885_length_12239_cov_2.808109", "shape": "dot", "size": 4, "title": "Target host genus: None\u003cbr\u003ePhage genus: None\u003cbr\u003eGenome size: 12_239 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821614", "label": "KC821614", "shape": "dot", "size": 24, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 72_534 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821619", "label": "KC821619", "shape": "dot", "size": 13, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 39_189 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KT962245", "label": "KT962245", "shape": "dot", "size": 48, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 145_865 bp"}, {"color": {"background": "#39dede", "border": "#000000"}, "id": "Station37_MES_COMBINED_FINAL_NODE_913_length_38284_cov_7.899370", "label": "Station37_MES_COMBINED_FINAL_NODE_913_length_38284_cov_7.899370", "shape": "dot", "size": 12, "title": "Target host genus: None\u003cbr\u003ePhage genus: None\u003cbr\u003eGenome size: 38_284 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821620", "label": "KC821620", "shape": "dot", "size": 23, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Podoviridae\u003cbr\u003eGenome size: 71_443 bp"}, {"color": {"background": "#8acb4a", "border": "#000000"}, "id": "KC821625", "label": "KC821625", "shape": "dot", "size": 25, "title": "Target host genus: Cellulophaga\u003cbr\u003ePhage genus: Siphoviridae\u003cbr\u003eGenome size: 76_666 bp"}]);
+        edges = new vis.DataSet([{"color": "lightgray", "from": "KC821618", "title": 0.229664, "to": "KC821622", "value": 0.120336, "weight": 0.229664}, {"color": "lightgray", "from": "KC821618", "title": 0.220002, "to": "KC821608", "value": 0.129998, "weight": 0.220002}, {"color": "lightgray", "from": "KC821618", "title": 0.130164, "to": "KC821607", "value": 0.219836, "weight": 0.130164}, {"color": "lightgray", "from": "KC821615", "title": 0.066519, "to": "KC821617", "value": 0.283481, "weight": 0.066519}, {"color": "lightgray", "from": "KC821615", "title": 0.062639, "to": "KC821627", "value": 0.287361, "weight": 0.062639}, {"color": "lightgray", "from": "KC821615", "title": 0.063031, "to": "KC821619", "value": 0.28696900000000003, "weight": 0.063031}, {"color": "lightgray", "from": "KC821617", "title": 0.066581, "to": "KC821613", "value": 0.283419, "weight": 0.066581}, {"color": "lightgray", "from": "KC821617", "title": 0.050113, "to": "KC821627", "value": 0.299887, "weight": 0.050113}, {"color": "lightgray", "from": "KC821617", "title": 0.049592, "to": "KC821619", "value": 0.300408, "weight": 0.049592}, {"color": "lightgray", "from": "KC821622", "title": 0.049558, "to": "KC821633", "value": 0.300442, "weight": 0.049558}, {"color": "lightgray", "from": "KC821622", "title": 0.052661, "to": "KC821608", "value": 0.297339, "weight": 0.052661}, {"color": "lightgray", "from": "KC821622", "title": 0.045168, "to": "KC821620", "value": 0.304832, "weight": 0.045168}, {"color": "lightgray", "from": "KC821633", "title": 0.041743, "to": "KC821608", "value": 0.308257, "weight": 0.041743}, {"color": "lightgray", "from": "KC821633", "title": 0.044846, "to": "KC821620", "value": 0.30515400000000004, "weight": 0.044846}, {"color": "lightgray", "from": "KC821612", "title": 0.083573, "to": "Station168_IZZ_ALL_assembly_NODE_9885_length_12239_cov_2.808109", "value": 0.26642699999999997, "weight": 0.083573}, {"color": "lightgray", "from": "KC821612", "title": 0.000338, "to": "KC821614", "value": 0.34966200000000003, "weight": 0.000338}, {"color": "lightgray", "from": "KC821624", "title": 0.220624, "to": "KT962246", "value": 0.12937600000000002, "weight": 0.220624}, {"color": "lightgray", "from": "KC821624", "title": 0.220624, "to": "KC821632", "value": 0.12937600000000002, "weight": 0.220624}, {"color": "lightgray", "from": "KC821624", "title": 0.220624, "to": "KT962245", "value": 0.12937600000000002, "weight": 0.220624}, {"color": "lightgray", "from": "KC821613", "title": 0.062669, "to": "KC821627", "value": 0.287331, "weight": 0.062669}, {"color": "lightgray", "from": "KC821613", "title": 0.063061, "to": "KC821619", "value": 0.286939, "weight": 0.063061}, {"color": "lightgray", "from": "KC821630", "title": 0.002526, "to": "KC821629", "value": 0.347474, "weight": 0.002526}, {"color": "lightgray", "from": "KC821630", "title": 0.002453, "to": "KC821634", "value": 0.347547, "weight": 0.002453}, {"color": "lightgray", "from": "KC821630", "title": 0.002544, "to": "KC821610", "value": 0.347456, "weight": 0.002544}, {"color": "lightgray", "from": "KT962247", "title": 0.100493, "to": "Station37_MES_COMBINED_FINAL_NODE_2068_length_20048_cov_9.997899", "value": 0.249507, "weight": 0.100493}, {"color": "lightgray", "from": "KT962247", "title": -0.0, "to": "KC821609", "value": 0.35, "weight": -0.0}, {"color": "lightgray", "from": "KT962247", "title": 0.009516, "to": "KT962246", "value": 0.340484, "weight": 0.009516}, {"color": "lightgray", "from": "KT962247", "title": 0.12198, "to": "Station37_MES_COMBINED_FINAL_NODE_3150_length_14336_cov_12.432113", "value": 0.22802, "weight": 0.12198}, {"color": "lightgray", "from": "KT962247", "title": 0.08248, "to": "Station37_MES_COMBINED_FINAL_NODE_1544_length_25511_cov_7.210677", "value": 0.26752, "weight": 0.08248}, {"color": "lightgray", "from": "KT962247", "title": 0.090503, "to": "Station37_MES_COMBINED_FINAL_NODE_1858_length_21738_cov_9.315270", "value": 0.259497, "weight": 0.090503}, {"color": "lightgray", "from": "KT962247", "title": 0.009516, "to": "KC821632", "value": 0.340484, "weight": 0.009516}, {"color": "lightgray", "from": "KT962247", "title": 0.009516, "to": "KT962245", "value": 0.340484, "weight": 0.009516}, {"color": "lightgray", "from": "KT962247", "title": 0.06315, "to": "Station37_MES_COMBINED_FINAL_NODE_913_length_38284_cov_7.899370", "value": 0.28685000000000005, "weight": 0.06315}, {"color": "lightgray", "from": "KC821629", "title": 0.002471, "to": "KC821616", "value": 0.347529, "weight": 0.002471}, {"color": "lightgray", "from": "KC821629", "title": 0.000104, "to": "KC821634", "value": 0.349896, "weight": 0.000104}, {"color": "lightgray", "from": "KC821629", "title": 0.000224, "to": "KC821610", "value": 0.349776, "weight": 0.000224}, {"color": "lightgray", "from": "KC821604", "title": 0.000157, "to": "KC821621", "value": 0.349843, "weight": 0.000157}, {"color": "lightgray", "from": "KC821604", "title": 0.003862, "to": "KC821625", "value": 0.346138, "weight": 0.003862}, {"color": "lightgray", "from": "KC821609", "title": 0.100493, "to": "Station37_MES_COMBINED_FINAL_NODE_2068_length_20048_cov_9.997899", "value": 0.249507, "weight": 0.100493}, {"color": "lightgray", "from": "KC821609", "title": 0.009516, "to": "KT962246", "value": 0.340484, "weight": 0.009516}, {"color": "lightgray", "from": "KC821609", "title": 0.12198, "to": "Station37_MES_COMBINED_FINAL_NODE_3150_length_14336_cov_12.432113", "value": 0.22802, "weight": 0.12198}, {"color": "lightgray", "from": "KC821609", "title": 0.08248, "to": "Station37_MES_COMBINED_FINAL_NODE_1544_length_25511_cov_7.210677", "value": 0.26752, "weight": 0.08248}, {"color": "lightgray", "from": "KC821609", "title": 0.090503, "to": "Station37_MES_COMBINED_FINAL_NODE_1858_length_21738_cov_9.315270", "value": 0.259497, "weight": 0.090503}, {"color": "lightgray", "from": "KC821609", "title": 0.009516, "to": "KC821632", "value": 0.340484, "weight": 0.009516}, {"color": "lightgray", "from": "KC821609", "title": 0.009516, "to": "KT962245", "value": 0.340484, "weight": 0.009516}, {"color": "lightgray", "from": "KC821609", "title": 0.06315, "to": "Station37_MES_COMBINED_FINAL_NODE_913_length_38284_cov_7.899370", "value": 0.28685000000000005, "weight": 0.06315}, {"color": "lightgray", "from": "KT962246", "title": 0.100083, "to": "Station37_MES_COMBINED_FINAL_NODE_2068_length_20048_cov_9.997899", "value": 0.249917, "weight": 0.100083}, {"color": "lightgray", "from": "KT962246", "title": 0.117568, "to": "Station37_MES_COMBINED_FINAL_NODE_3150_length_14336_cov_12.432113", "value": 0.232432, "weight": 0.117568}, {"color": "lightgray", "from": "KT962246", "title": 0.084279, "to": "Station37_MES_COMBINED_FINAL_NODE_1544_length_25511_cov_7.210677", "value": 0.265721, "weight": 0.084279}, {"color": "lightgray", "from": "KT962246", "title": 0.10015, "to": "Station37_MES_COMBINED_FINAL_NODE_1858_length_21738_cov_9.315270", "value": 0.24985, "weight": 0.10015}, {"color": "lightgray", "from": "KT962246", "title": -0.0, "to": "KC821632", "value": 0.35, "weight": -0.0}, {"color": "lightgray", "from": "KT962246", "title": -0.0, "to": "KT962245", "value": 0.35, "weight": -0.0}, {"color": "lightgray", "from": "KT962246", "title": 0.063791, "to": "Station37_MES_COMBINED_FINAL_NODE_913_length_38284_cov_7.899370", "value": 0.28620900000000005, "weight": 0.063791}, {"color": "lightgray", "from": "KC821627", "title": 0.000586, "to": "KC821619", "value": 0.349414, "weight": 0.000586}, {"color": "lightgray", "from": "KC821616", "title": 0.002401, "to": "KC821634", "value": 0.347599, "weight": 0.002401}, {"color": "lightgray", "from": "KC821616", "title": 0.002492, "to": "KC821610", "value": 0.34750800000000004, "weight": 0.002492}, {"color": "lightgray", "from": "KC821608", "title": 0.176821, "to": "KC821607", "value": 0.173179, "weight": 0.176821}, {"color": "lightgray", "from": "KC821608", "title": 0.049315, "to": "KC821620", "value": 0.300685, "weight": 0.049315}, {"color": "lightgray", "from": "KC821634", "title": 0.000166, "to": "KC821610", "value": 0.349834, "weight": 0.000166}, {"color": "lightgray", "from": "KC821632", "title": 0.100083, "to": "Station37_MES_COMBINED_FINAL_NODE_2068_length_20048_cov_9.997899", "value": 0.249917, "weight": 0.100083}, {"color": "lightgray", "from": "KC821632", "title": 0.117568, "to": "Station37_MES_COMBINED_FINAL_NODE_3150_length_14336_cov_12.432113", "value": 0.232432, "weight": 0.117568}, {"color": "lightgray", "from": "KC821632", "title": 0.084279, "to": "Station37_MES_COMBINED_FINAL_NODE_1544_length_25511_cov_7.210677", "value": 0.265721, "weight": 0.084279}, {"color": "lightgray", "from": "KC821632", "title": 0.10015, "to": "Station37_MES_COMBINED_FINAL_NODE_1858_length_21738_cov_9.315270", "value": 0.24985, "weight": 0.10015}, {"color": "lightgray", "from": "KC821632", "title": -0.0, "to": "KT962245", "value": 0.35, "weight": -0.0}, {"color": "lightgray", "from": "KC821632", "title": 0.063791, "to": "Station37_MES_COMBINED_FINAL_NODE_913_length_38284_cov_7.899370", "value": 0.28620900000000005, "weight": 0.063791}, {"color": "lightgray", "from": "KC821621", "title": 0.003971, "to": "KC821625", "value": 0.34602900000000003, "weight": 0.003971}, {"color": "lightgray", "from": "KC821614", "title": 0.08347, "to": "Station168_IZZ_ALL_assembly_NODE_9885_length_12239_cov_2.808109", "value": 0.26653000000000004, "weight": 0.08347}, {"color": "lightgray", "from": "KT962245", "title": 0.100083, "to": "Station37_MES_COMBINED_FINAL_NODE_2068_length_20048_cov_9.997899", "value": 0.249917, "weight": 0.100083}, {"color": "lightgray", "from": "KT962245", "title": 0.117568, "to": "Station37_MES_COMBINED_FINAL_NODE_3150_length_14336_cov_12.432113", "value": 0.232432, "weight": 0.117568}, {"color": "lightgray", "from": "KT962245", "title": 0.084279, "to": "Station37_MES_COMBINED_FINAL_NODE_1544_length_25511_cov_7.210677", "value": 0.265721, "weight": 0.084279}, {"color": "lightgray", "from": "KT962245", "title": 0.10015, "to": "Station37_MES_COMBINED_FINAL_NODE_1858_length_21738_cov_9.315270", "value": 0.24985, "weight": 0.10015}, {"color": "lightgray", "from": "KT962245", "title": 0.063791, "to": "Station37_MES_COMBINED_FINAL_NODE_913_length_38284_cov_7.899370", "value": 0.28620900000000005, "weight": 0.063791}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": true
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 0.4,
+            "gravitationalConstant": -50,
+            "springConstant": 0.08,
+            "springLength": 100
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+        // if this network requires displaying the configure window,
+        // put it in its div
+        options.configure["container"] = document.getElementById("config");
+        
+
+        network = new vis.Network(container, data, options);
+
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
