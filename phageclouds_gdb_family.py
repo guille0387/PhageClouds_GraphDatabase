@@ -65,6 +65,17 @@ def color_phage_tax(row, family, taxon):
     else:
         return '#FFFFFF'
 
+def extract_phage_tax(row, taxon, taxdict):
+    ncbi = NCBITaxa()
+    taxid = taxdict.get(row['Phage'], None)
+    if not taxid:
+        return None
+    else:
+        taxid_lineage = ncbi.get_lineage(taxid)
+        target_taxon = {ncbi.get_rank([item]).get(item):ncbi.get_taxid_translator([item]).get(item) for item in taxid_lineage}.get(taxon, None)
+        return target_taxon
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Extract and draw phage clouds for user-defined phage family and colour nodes based on genus or subfamily')
@@ -78,6 +89,7 @@ if __name__ == '__main__':
         phage_family = args.family
         phage_tax = args.taxon
         dist_thres = args.dist
+        acc_taxid_file = 'phages.accessions.txt.taxid'
         conn = Neo4jConnection()
         query = """MATCH (p:PhageGenome {{source:"NCBI"}}) WHERE p.taxonomy CONTAINS "{}" OPTIONAL MATCH (p)-[r:sharesDNA]->(q:PhageGenome) WHERE r.distance <= {} WITH collect(p.accession) AS target_phages, collect(q.accession) AS connected_phages RETURN target_phages + [x IN connected_phages WHERE NOT x IN target_phages] AS phage_nodes;""".format(phage_family, dist_thres)
         target_phages = set(conn.query(query)[0].get('phage_nodes'))
@@ -86,12 +98,15 @@ if __name__ == '__main__':
         query = """MATCH (p:PhageGenome)-[r:sharesDNA]->(q:PhageGenome) WHERE p.accession IN {} AND q.accession IN {} AND r.distance <= {} RETURN p.accession AS Source, q.accession AS Target, r.distance AS Distance;""".format(list(target_phages), list(target_phages), dist_thres)
         edges_df = conn.query2df(query)
         nodes_df['Color'] = nodes_df.apply(color_phage_tax, args = (phage_family, phage_tax), axis = 1)
+        with open(acc_taxid_file) as taxidfile:
+            acc_taxid_dict = {line.rstrip().split(',')[0]:line.rstrip().split(',')[1] for line in taxidfile}
+        nodes_df['Target_taxon'] = nodes_df.apply(extract_phage_tax, args = (phage_tax, acc_taxid_dict), axis = 1)
         size_scale_factor = 3000
         node_metadata = defaultdict(dict)
         for row in nodes_df.itertuples(index = False):
             node_size = int(row.Genome_size / size_scale_factor)
             colorsdict = {'border':'#000000', 'background':row.Color}
-            node_metadata[row.Phage].update({'size':node_size, 'color':colorsdict, 'title':f'Source: {row.Source}<br>Genome size: {row.Genome_size:_}'})
+            node_metadata[row.Phage].update({'size':node_size, 'color':colorsdict, 'title':f'Source: {row.Source}<br>Genome size: {row.Genome_size:_}<br>{phage_tax}: {row.Target_taxon}'})
         pyvis_graph = net.Network(notebook = False, height='1500px', width='1500px')
         pyvis_graph.force_atlas_2based()
         for node, node_attrs in node_metadata.items():
