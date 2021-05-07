@@ -45,7 +45,7 @@ class Neo4jConnection:
         return df
 
 def color_phage_tax(row, family, taxon):
-    ncbi = NCBITaxa()
+    ncbi = NCBITaxa(dbfile = 'ncbi_taxa.sqlite')
     taxid = ncbi.get_name_translator([family]).get(family)[0]
     descendant_taxa = ncbi.get_descendant_taxa(taxid)
     lineages_dict = ncbi.get_lineage_translator(descendant_taxa)
@@ -66,7 +66,7 @@ def color_phage_tax(row, family, taxon):
         return '#FFFFFF'
 
 def extract_phage_tax(row, taxon, taxdict):
-    ncbi = NCBITaxa()
+    ncbi = NCBITaxa(dbfile = 'ncbi_taxa.sqlite')
     taxid = taxdict.get(row['Phage'], None)
     if not taxid:
         return None
